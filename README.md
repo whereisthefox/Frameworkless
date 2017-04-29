@@ -1,17 +1,7 @@
-# Frameworkless
-An admittedly overly simplistic example of combining a few popular packages into your own micro-framework.
-
-
-## Why?
-
-**Education.**
-
-I do not recommend building your own framework unless you have a very compelling reason to do so.
-Instead,use a popular & well-supported framework like [Symfony](http://symfony.com), [Slim](https://www.slimframework.com), or [Laravel](http://laravel.com).
+# FoxTail
+Simple server and website for "Where is the Fox data aggregator", based on [Frameworkless](https://github.com/mmeyer724/Frameworkless) micro-framework
 
 #### What's included?
-I spent some time picking out packages, preferring those used by existing large applications or frameworks. Here is what's included, in no particular order:
-
 * **[nikic/fast-route](https://github.com/nikic/FastRoute)**
   * Popular routing library used by frameworks like [Slim](http://www.slimframework.com).  
 * **[filp/whoops](https://github.com/filp/whoops)**
@@ -26,7 +16,7 @@ I spent some time picking out packages, preferring those used by existing large 
   * Please don't push your database credentials to GitHub.  
 
 
-## Getting started with Vagrant
+## Developer setup
 
 #### Prerequisites
 * [Vagrant](https://www.vagrantup.com)
@@ -38,35 +28,14 @@ I spent some time picking out packages, preferring those used by existing large 
 2. `cd` into the cloned repository
 3. `composer install`
 4. `cp misc/.env.example .env`
-5. `cp misc/Vagrantfile .`
 6. `vagrant up`
 
 From here, you should be able to access http://localhost:8080/. This website is served using NGINX & PHP 7.
 
-
-## Getting started with Docker
-
-#### Prerequisites
-* [Docker](https://www.docker.com)
-* [Docker Compose](https://docs.docker.com/compose)
-* [composer](https://getcomposer.org)
-
-#### Steps
-1. `git clone` this repository
-2. `cd` into the cloned repository
-3. `composer install`
-4. `cp misc/.env.example .env`
-5. `cp misc/Dockerfile .`
-6. `cp misc/docker-compose.yml .`
-7. `docker-compose up`
-
-Run `docker-compose port application 80` to find the public port this application is running on.
-
-
-## Batteries not included
+<!-- ## Batteries not included
 I've intentionally made this project as simplistic as possible. A lot of things are left up to you to design and implement. On the plus side, you won't have to remove much boilerplate.
 
-Below you will find instructions on how to implement a few things, feel free to contribute more examples :). 
+Below you will find instructions on how to implement a few things, feel free to contribute more examples :).
 
 ### PDO (database)
 Edit `bootstrap/app.php` and add the following:
@@ -89,12 +58,12 @@ DB_PASS=hopefullysecure
 Now, from a controller:
 ```php
 private $pdo;
-    
+
 public function __construct(PDO $pdo)
 {
     $this->pdo = $pdo;
 }
-    
+
 public function get()
 {
     $handle = $this->pdo->prepare('SELECT * FROM `todos`');
@@ -147,26 +116,16 @@ class Posts extends Entity
 And finally from your controller:
 ```php
 private $spot;
-    
+
 public function __construct(\Spot\Locator $spot)
 {
     $this->spot = $spot;
 }
-    
+
 public function get()
 {
     $posts = $this->spot->mapper('Frameworkless\Models\Posts')->all();
     return new Response('Here are your posts ' . print_r($posts, true));
 }
 ```
-
-
-## Contributing
-Submit a pull request :) I'll be friendly
-
-
-Thanks to **@waxim** for contributing the Spot example
-
-Thanks to **@jaakkytt** for clearing up part of this readme
-
-Thanks to **@Luciam91** for contributing Docker support
+-->
