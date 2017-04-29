@@ -11,7 +11,6 @@ var popup = new mapboxgl.Popup({
 });
 
 var airports = []; // Holds visible location features for filtering
-
 var filterEl = document.getElementById('feature-filter');
 var listingEl = document.getElementById('feature-listing');
 
@@ -91,7 +90,7 @@ map.on('load', function(e) {
       var features = map.queryRenderedFeatures({layers:['locations']});
 
       if (features) {
-          var uniqueFeatures = getUniqueFeatures(features, "");
+          var uniqueFeatures = getUniqueFeatures(features, "species");
           // Populate features for the listing overlay.
           renderListings(uniqueFeatures);
 

@@ -32,9 +32,12 @@ class IndexController
      */
     public function index()
     {
+        $datafile = file_get_contents($_SERVER["DOCUMENT_ROOT"].'/data/json/datapoints.geojson');
+
         $response = new Response(
             $this->twig->render('pages/index.html.twig', [
-                'mapbox_token' => getenv("MAPBOX")
+                'mapbox_token' => getenv("MAPBOX"),
+                'datapoints' => $datafile
             ])
         );
         return $response;

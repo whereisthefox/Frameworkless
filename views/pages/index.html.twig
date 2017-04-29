@@ -8,6 +8,10 @@
     <div class="container">
         <h1>Where is the fox?</h1>
 
+
+<img src='http://res.cloudinary.com/foxtail/image/upload/Vulpes_vulpes_laying_in_snow_hilifg.jpg' alt='Sample Image'/>
+
+
         <div class="map-container">
             {% include "parts/map.html.twig" %}
         </div>
@@ -15,7 +19,7 @@
     <script type="text/javascript" src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.js"></script>
     <script type="text/javascript">
         mapboxgl.accessToken = "{{ mapbox_token }}";
+        var datapoints = {{ datapoints|raw }};
     </script>
-    <script type="text/javascript" src="/data/json/datapoints.js"></script>
     <script type="text/javascript" src="/assets/js/main.js"></script>
 {% endblock %}

@@ -18,9 +18,9 @@ class ApiController
     public function getData()
     {
         $request = Request::createFromGlobals();
-        
+
         $data = $request->getContent();
-        
+
 	$status = $this->appendData($data);
         $response = new Response(
             $status,
@@ -58,14 +58,14 @@ class ApiController
 	try {
 	    $_SERVER["DOCUMENT_ROOT"];
             $data2 = json_decode($data, true);
-	    $inp = file_get_contents($_SERVER["DOCUMENT_ROOT"].'/data/json/datapoints.js');
+	    $inp = file_get_contents($_SERVER["DOCUMENT_ROOT"].'/data/json/datapoints.geojson');
 
 	    $tempArray = json_decode($inp, true);
             array_push($tempArray, $data2);
 	    $jsonData = json_encode($tempArray);
-	    file_put_contents($_SERVER["DOCUMENT_ROOT"].'/data/json/datapoints.js', $jsonData);
+	    file_put_contents($_SERVER["DOCUMENT_ROOT"].'/data/json/datapoints.geojson', $jsonData);
 	    return 'succes';
-	} catch(Exception $e) {	
+	} catch(Exception $e) {
 	    return $e->getMessage();
 	}
 
