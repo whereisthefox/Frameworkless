@@ -8,7 +8,8 @@
         "symfony/var-dumper": "^3.2",
         "filp/whoops": "^2.1",
         "vlucas/phpdotenv": "^2.4",
-        "twig/twig": "^1.28"
+        "twig/twig": "^1.28",
+        "cloudinary/cloudinary_php": "dev-master"
     },
     "autoload": {
         "psr-4": {
