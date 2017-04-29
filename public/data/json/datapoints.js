@@ -1,4 +1,4 @@
-var datapoints=
+var datapoints =
 	{
 	   "type":"FeatureCollection",
 	   "features":[
