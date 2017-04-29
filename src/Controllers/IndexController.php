@@ -32,7 +32,12 @@ class IndexController
      */
     public function index()
     {
-        return new Response($this->twig->render('pages/index.html.twig'));
+        $response = new Response(
+            $this->twig->render('pages/index.html.twig', [
+                'mapbox_token' => getenv("MAPBOX")
+            ])
+        );
+        return $response;
     }
 
     /**

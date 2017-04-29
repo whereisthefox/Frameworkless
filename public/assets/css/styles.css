@@ -35,3 +35,11 @@ h1, h2 {
 ul li {
     padding-bottom: 5px;
 }
+#map {
+    height: 600px;
+}
+.map-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 20px;
+}
