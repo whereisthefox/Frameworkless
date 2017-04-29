@@ -18,17 +18,12 @@ class ApiController
     public function getData()
     {
         $request = Request::createFromGlobals();
-        if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
-	    $data = $request->getContent();
-            $data2 = json_decode($data, true);
-            $request->request->replace(is_array($data2) ? $data2 : array());
-        } else {
-            $data2 = $request->getContent();
-        }
-
-	var_dump($data2);
+        
+        $data = $request->getContent();
+        
+	$status = $this->appendData($data);
         $response = new Response(
-            'Upload sucessfull!',
+            $status,
             Response::HTTP_OK,
             array('Content-Type' => 'application/json')
         );
@@ -58,8 +53,22 @@ class ApiController
         return($this->getData($r));
     }
 
-   public function apendData()
+   public function appendData($data)
    {
+	try {
+	    $_SERVER["DOCUMENT_ROOT"];
+            $data2 = json_decode($data, true);
+	    $inp = file_get_contents($_SERVER["DOCUMENT_ROOT"].'/data/json/datapoints.js');
+
+	    $tempArray = json_decode($inp, true);
+            array_push($tempArray, $data2);
+	    $jsonData = json_encode($tempArray);
+	    file_put_contents($_SERVER["DOCUMENT_ROOT"].'/data/json/datapoints.js', $jsonData);
+	    return 'succes';
+	} catch(Exception $e) {	
+	    return $e->getMessage();
+	}
+
    }
 
 }
