@@ -22,8 +22,8 @@ class ApiController
     public function getData()
     {
         $request = Request::createFromGlobals();
-
-        $data = $request->getContent();
+        file_put_contents($_SERVER["DOCUMENT_ROOT"].'/data/json/log.txt', $request->getContent());
+        $data = json_decode($request->getContent(), TRUE);
 
         $status = $this->appendData($data);
         $response = new Response(
@@ -57,27 +57,35 @@ class ApiController
         return($this->getData($r));
     }
 
-    public function appendData($data)
+    public function appendData($data2)
     {
 	  try {
-	    $_SERVER["DOCUMENT_ROOT"];
-      $data2 = json_decode($data, true);
-      $weatherdata = weatherData($data2["geometry"]["coordinates"][0], $data2["geometry"]["coordinates"][1]);
-      $data2['weather'][0]['id'] = $weatherdata['id'];
-      $data2['weather'][0]['main'] = $weatherdata['main'];
-      $data2['weather'][0]['description'] = $weatherdata['description'];
-      $data2['weather'][0]['icon'] = $weatherdata['icon'];
-      $data2['main']['temp'] = $weatherdata['temp'];
-      $data2['main']['pressure'] = $weatherdata['pressure'];
-      $data2['main']['humidity'] = $weatherdata['humidity'];
-      $data2['main']['temp_min'] = $weatherdata['temp_min'];
-      $data2['main']['temp_max'] = $weatherdata['temp_max'];
-      $data2['main']['sea_level'] = $weatherdata['sea_level'];
-      $data2['main']['grnd_level'] = $weatherdata['grnd_level'];
-      $data2['wind']['speed'] = $weatherdata['speed'];
-      $data2['wind']['deg'] = $weatherdata['deg'];
-      $data2['clouds']['all'] = $weatherdata['all'];
-      $data2['dt'] = $weatherdata['dt'];
+      //if( defined($data2['lat'])){
+      //  $lat = $data2['lat'];
+      //  $lon = $data2['lon'];
+      //  $dt = $data['dt'];
+    //  } else {
+        $lat = $data2['features'][0]['geometry']['coordinates'][0];
+        $lon = $data2['features'][0]['geometry']['coordinates'][1];
+        // $data2['features'][0]['dt'] = $weatherdata['dt'];
+    //  }
+
+      $weatherdata = $this->getWetData($lat, $lon);
+      $data2['features'][0]['weather'][0]['id'] = $weatherdata['id'];
+      $data2['features'][0]['weather'][0]['main'] = $weatherdata['main'];
+      $data2['features'][0]['weather'][0]['description'] = $weatherdata['description'];
+      $data2['features'][0]['weather'][0]['icon'] = $weatherdata['icon'];
+      $data2['features'][0]['main']['temp'] = $weatherdata['temp'];
+      $data2['features'][0]['main']['pressure'] = $weatherdata['pressure'];
+      $data2['features'][0]['main']['humidity'] = $weatherdata['humidity'];
+      $data2['features'][0]['main']['temp_min'] = $weatherdata['temp_min'];
+      $data2['features'][0]['main']['temp_max'] = $weatherdata['temp_max'];
+      $data2['features'][0]['main']['sea_level'] = $weatherdata['sea_level'];
+      $data2['features'][0]['main']['grnd_level'] = $weatherdata['grnd_level'];
+      $data2['features'][0]['wind']['speed'] = $weatherdata['speed'];
+      $data2['features'][0]['wind']['deg'] = $weatherdata['deg'];
+      $data2['features'][0]['clouds']['all'] = $weatherdata['all'];
+
 	    $inp = file_get_contents($_SERVER["DOCUMENT_ROOT"].'/data/json/datapoints.geojson');
 	    $tempArray = json_decode($inp, true);
       array_push($tempArray, $data2);
@@ -89,46 +97,45 @@ class ApiController
 	  }
   }
 
-  public function weatherData($lat, $lon)
+  public function getWetData($lat, $lon)
   {
-  // Language of data (try your own language here!):
-  $lang = 'de';
+      // Language of data (try your own language here!):
+      $lang = 'de';
 
-  // Units (can be 'metric' or 'imperial' [default]):
-  $units='metric';
-  // Create OpenWeatherMap object.
-  // Don't use caching (take a look into Examples/Cache.php to see how it works).
-  $owm = new OpenWeatherMap(getenv('WEATHER'));
+      // Units (can be 'metric' or 'imperial' [default]):
+      $units='metric';
+      // Create OpenWeatherMap object.
+      // Don't use caching (take a look into Examples/Cache.php to see how it works).
+      $owm = new OpenWeatherMap(getenv('WEATHER'));
 
-  try {
-      $weather = $owm->getWeather(array('lat' => $lat, 'lon' => $lon), $units, $lang);
+      try {
+          $weather = $owm->getWeather(array('lat' => $lat, 'lon' => $lon), $units, $lang);
 
-      $wheatherout = [];
+          $wheatherout = [];
 
-      $weatherout['id'] = (string)$weather->city->id;
-      $weatherout['main'] = 'none';
-      $weatherout['description'] = $weather->clouds->getDescription();
-      $weatherout['icon'] = 'none';
-      $weatherout['temp'] = $weather->temperature->getFormatted();
-      $weatherout['pressure'] = $weather->pressure->getFormatted();
-      $weatherout['humidity'] = $weather->humidity->getFormatted();
-      $weatherout['temp_min'] = $weather->temperature->min->getFormatted();
-      $weatherout['temp_max'] = $weather->temperature->max->getFormatted();
-      $weatherout['sea_level'] = 'none';
-      $weatherout['grnd_level'] = 'none';
-      $weatherout['speed'] = $weather->wind->speed->getFormatted();
-      $weatherout['deg'] = $weather->wind->direction->getFormatted();
-      $weatherout['all'] = $weather->clouds->getFormatted();
+          $weatherout['id'] = (string)$weather->city->id;
+          $weatherout['main'] = 'none';
+          $weatherout['description'] = $weather->clouds->getDescription();
+          $weatherout['icon'] = 'none';
+          $weatherout['temp'] = $weather->temperature->getFormatted();
+          $weatherout['pressure'] = $weather->pressure->getFormatted();
+          $weatherout['humidity'] = $weather->humidity->getFormatted();
+          $weatherout['temp_min'] = $weather->temperature->min->getFormatted();
+          $weatherout['temp_max'] = $weather->temperature->max->getFormatted();
+          $weatherout['sea_level'] = 'none';
+          $weatherout['grnd_level'] = 'none';
+          $weatherout['speed'] = $weather->wind->speed->getFormatted();
+          $weatherout['deg'] = $weather->wind->direction->getFormatted();
+          $weatherout['all'] = $weather->clouds->getFormatted();
 
-      print('<pre>');
-      var_dump($weatherout);
-      return $weatherout;
-  } catch(OWMException $e) {
-      echo 'OpenWeatherMap exception: ' . $e->getMessage() . ' (Code ' . $e->getCode() . ').';
-  } catch(\Exception $e) {
-      echo 'General exception: ' . $e->getMessage() . ' (Code ' . $e->getCode() . ').';
-  }
-
+          print('<pre>');
+          var_dump($weatherout);
+          return $weatherout;
+      } catch(OWMException $e) {
+          echo 'OpenWeatherMap exception: ' . $e->getMessage() . ' (Code ' . $e->getCode() . ').';
+      } catch(\Exception $e) {
+          echo 'General exception: ' . $e->getMessage() . ' (Code ' . $e->getCode() . ').';
+      }
   }
 
     public function tomyCSV()
