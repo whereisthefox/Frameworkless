@@ -13,8 +13,11 @@ Simple server and website for "Where is the Fox data aggregator", based on [Fram
 * **[twig/twig](https://github.com/twigphp/Twig)**
   * The rock solid templating engine used by Symfony and many others.
 * **[vlucas/phpdotenv](https://github.com/vlucas/phpdotenv)**
-  * Please don't push your database credentials to GitHub.  
-
+  * Please don't push your database credentials to GitHub.
+* **[cloudinary/cloudinary_php](https://github.com/cloudinary/cloudinary_php)**
+  * PHP extension for Cloudinary cloud service.
+* **[cmfcmf/openweathermap-php-api](https://github.com/cmfcmf/openweathermap-php-api)**
+  * A PHP API to parse weather data and weather history from OpenWeatherMap.org.
 
 ## Developer setup
 
