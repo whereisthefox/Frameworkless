@@ -89,7 +89,7 @@ class ApiController
 	  }
   }
 
-  public function weatherData()
+  public function weatherData($lat, $lon)
   {
   // Language of data (try your own language here!):
   $lang = 'de';
@@ -101,25 +101,27 @@ class ApiController
   $owm = new OpenWeatherMap(getenv('WEATHER'));
 
   try {
-      $weather = $owm->getWeather('Berlin', $units, $lang);
+      $weather = $owm->getWeather(array('lat' => $lat, 'lon' => $lon), $units, $lang);
 
       $wheatherout = [];
 
-      $weatherout['id'] = $data2['weather'][0]['id'];
-      $weatherout['main'] = $weather['weather'][0]['main'];
-      $weatherout['description'] = $weather['weather'][0]['description'];
-      $weatherout['icon'] = $weather['weather'][0]['icon'];
-      $weatherout['temp'] = $weather['main']['temp'];
-      $weatherout['pressure'] = $weather['main']['pressure'];
-      $weatherout['humidity'] = $weather['main']['humidity'];
-      $weatherout['temp_min'] = $weather['main']['temp_min'];
-      $weatherout['temp_max'] = $weather['main']['temp_max'];
-      $weatherout['sea_level'] = $weather['main']['sea_level'];
-      $weatherout['grnd_level'] = $weather['main']['grnd_level'];
-      $weatherout['speed'] = $weather['wind']['speed'];
-      $weatherout['deg'] = $weather['wind']['deg'];
-      $weatherout['all'] = $weather['clouds']['all'];
+      $weatherout['id'] = (string)$weather->city->id;
+      $weatherout['main'] = 'none';
+      $weatherout['description'] = $weather->clouds->getDescription();
+      $weatherout['icon'] = 'none';
+      $weatherout['temp'] = $weather->temperature->getFormatted();
+      $weatherout['pressure'] = $weather->pressure->getFormatted();
+      $weatherout['humidity'] = $weather->humidity->getFormatted();
+      $weatherout['temp_min'] = $weather->temperature->min->getFormatted();
+      $weatherout['temp_max'] = $weather->temperature->max->getFormatted();
+      $weatherout['sea_level'] = 'none';
+      $weatherout['grnd_level'] = 'none';
+      $weatherout['speed'] = $weather->wind->speed->getFormatted();
+      $weatherout['deg'] = $weather->wind->direction->getFormatted();
+      $weatherout['all'] = $weather->clouds->getFormatted();
 
+      print('<pre>');
+      var_dump($weatherout);
       return $weatherout;
   } catch(OWMException $e) {
       echo 'OpenWeatherMap exception: ' . $e->getMessage() . ' (Code ' . $e->getCode() . ').';
