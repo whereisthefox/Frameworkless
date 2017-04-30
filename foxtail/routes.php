@@ -6,4 +6,5 @@ return [
     ['GET', '/greet/{name}', ['Frameworkless\Controllers\GreetController', 'greet']],
     ['POST', '/api', ['Frameworkless\Controllers\ApiController', 'getData']],
     ['GET', '/test-api', ['Frameworkless\Controllers\ApiController', 'sendData']],
+    ['GET', '/export', ['Frameworkless\Controllers\ApiController', 'tomyCSV']],
 ];

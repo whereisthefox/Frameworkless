@@ -21,7 +21,7 @@ class ApiController
 
         $data = $request->getContent();
 
-	$status = $this->appendData($data);
+        $status = $this->appendData($data);
         $response = new Response(
             $status,
             Response::HTTP_OK,
@@ -53,21 +53,79 @@ class ApiController
         return($this->getData($r));
     }
 
-   public function appendData($data)
-   {
-	try {
+    public function appendData($data)
+    {
+	  try {
 	    $_SERVER["DOCUMENT_ROOT"];
-            $data2 = json_decode($data, true);
+      $data2 = json_decode($data, true);
 	    $inp = file_get_contents($_SERVER["DOCUMENT_ROOT"].'/data/json/datapoints.geojson');
-
 	    $tempArray = json_decode($inp, true);
-            array_push($tempArray, $data2);
+      array_push($tempArray, $data2);
 	    $jsonData = json_encode($tempArray);
 	    file_put_contents($_SERVER["DOCUMENT_ROOT"].'/data/json/datapoints.geojson', $jsonData);
 	    return 'succes';
-	} catch(Exception $e) {
+	  } catch(Exception $e) {
 	    return $e->getMessage();
-	}
+	  }
+  }
+
+    public function tomyCSV()
+    {
+      $json = file_get_contents($_SERVER["DOCUMENT_ROOT"].'/data/json/datapoints.geojson');
+      $tempArray = json_decode($json, true);
+      $csvfile = fopen($_SERVER["DOCUMENT_ROOT"].'/data/json/file.csv','w+');
+      $list = array
+        (
+        "latitude",
+        "longitude",
+        "name_of_spiecies",
+        "picture_name",
+        "weather_desc",
+        "temp",
+        "pressure",
+        "humidity",
+        "temp_min",
+        "temp_max",
+        "sea_level",
+        "grnd_level",
+        "wind_speed",
+        "wind_deg",
+        "clouds_all",
+        "timespan"
+        );
+      fputcsv($csvfile, $list);
+      fclose($csvfile);
+
+      foreach ($tempArray[1] as $myfeatures) {
+      $csvfile = fopen($_SERVER["DOCUMENT_ROOT"].'/data/json/file.csv');
+         $list = array
+           (
+             $json['features']['geometry']['coordinates'][0],
+             $json['features']['geometry']['coordinates'][1],
+             $json['features']['properties']['species'],
+             $json['features']['properties']['picture'],
+             $json['features']['weather']['description'],
+             $json['features']['main']['temp'],
+             $json['features']['main']['pressure'],
+             $json['features']['main']['humidity'],
+             $json['features']['main']['temp_min'],
+             $json['features']['main']['temp_max'],
+             $json['features']['main']['sea_level'],
+             $json['features']['main']['grnd_level'],
+             $json['features']['wind']['speed'],
+             $json['features']['wind']['deg'],
+             $json['features']['clouds']['all'],
+             $json['features']['dt']
+           );
+           var_dump($list);
+           fputs($csvfile, $list);
+           fclose($csvfile);
+      }
+
+  //    return 'succes';
+  //  } catch(Exception $e) {
+  //    return $e->getMessage();
+//    }
 
    }
 
