@@ -9,7 +9,8 @@
         "filp/whoops": "^2.1",
         "vlucas/phpdotenv": "^2.4",
         "twig/twig": "^1.28",
-        "cloudinary/cloudinary_php": "dev-master"
+        "cloudinary/cloudinary_php": "dev-master",
+        "cmfcmf/openweathermap-php-api": "dev-master"
     },
     "autoload": {
         "psr-4": {
