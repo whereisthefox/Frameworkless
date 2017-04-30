@@ -16,10 +16,10 @@ var listingEl = document.getElementById('feature-listing');
 var fromEl = document.getElementById('from-filter');
 var toEl = document.getElementById('to-filter');
 var exportBtn = document.getElementById('export-button');
-var map = document.getElementById('map');
+var mapContainer = document.getElementById('map');
 
 // Set map height to window height
-map.style.height = ((window.innerHeight-96) + "px");
+mapContainer.style.height = ((window.innerHeight-96) + "px");
 
 exportBtn.onclick = function exportBtn(exportBtn) {
     $.ajax({
