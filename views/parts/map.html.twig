@@ -3,14 +3,18 @@
         <label for="species">Find a species</label>
         <input id='feature-filter' name="species" type='text' placeholder='Filter results by species' />
     </fieldset>
-    <fieldset>
-        <label for="species">From:</label>
-        <input id='from-filter' name="from" type='date' placeholder='09/05/2017' />
-        <label for="species">To:</label>
-        <input id='to-filter' name="to" type='date' placeholder='09/05/2018' />
+    <fieldset class="data-container">
+        <div class="">
+            <label for="species">From:</label>
+            <input id='from-filter' name="from" type='date' placeholder='09/05/2017' />
+        </div>
+        <div class="">
+            <label for="species">To:</label>
+            <input id='to-filter' name="to" type='date' placeholder='09/05/2018' />
+        </div>
     </fieldset>
     <div id='feature-listing' class='listing'></div>
-    <a href="data/file.csv" id="export-button">Export</a>
+    <a href="data/file.csv" id="export-button">Download your data</a>
     <!-- <button type="button" name="button" id="export-button">Export</button> -->
 </div>
 

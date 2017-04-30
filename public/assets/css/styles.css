@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700');
+
 body {
     margin: 0;
-    background: #fff;
+    background: #f8f9fa;
     color: #444444;
-    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
-    font-size: 14px;
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 16px;
     line-height: 1.6;
     max-width: 100%;
     padding: 0;
@@ -50,4 +52,34 @@ ul li {
     color: black;
     margin: 0;
     padding: 1em;
+}
+.data-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-gap: 20px;
+}
+#feature-listing {
+    display: none;
+}
+#export-button {
+    background-color: #ff6700;
+    color: #f8f9fa;
+    display: block;
+    width: 100%;
+    padding: 1em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+@media screen and (max-width: 480px) {
+    .map-container {
+        grid-template-columns: 1fr;
+    }
+    .map-overlay {
+        position: absolute;
+        z-index: 1;
+    }
+    .data-container, #export-button, label {
+        display: none;
+    }
 }
