@@ -10,7 +10,7 @@ var popup = new mapboxgl.Popup({
     closeButton: true
 });
 
-var airports = []; // Holds visible location features for filtering
+var uniqueSpecies = []; // Holds visible location features for filtering
 var filterEl = document.getElementById('feature-filter');
 var listingEl = document.getElementById('feature-listing');
 
@@ -23,11 +23,11 @@ function renderListings(features) {
             var item = document.createElement('a');
             item.href = prop.wikipedia;
             item.target = '_blank';
-            item.textContent = prop.name + ' (' + prop.species + ')';
+            item.textContent = prop.species;
             item.addEventListener('mouseover', function() {
                 // Highlight corresponding feature on the map
                 popup.setLngLat(feature.geometry.coordinates)
-                    .setText(feature.properties.name + ' (' + feature.properties.species + ')')
+                    .setText(feature.properties.species)
                     .addTo(map);
             });
             listingEl.appendChild(item);
@@ -97,9 +97,9 @@ map.on('load', function(e) {
           // Clear the input container
           filterEl.value = '';
 
-          // Store the current features in sn `airports` variable to
+          // Store the current features in sn `uniqueSpecies` variable to
           // later use for filtering on `keyup`.
-          airports = uniqueFeatures;
+          uniqueSpecies = uniqueFeatures;
       }
   });
 
@@ -110,7 +110,8 @@ map.on('load', function(e) {
       // Populate the popup and set its coordinates based on the feature.
       var feature = e.features[0];
       popup.setLngLat(feature.geometry.coordinates)
-          .setText(feature.properties.name + ' (' + feature.properties.species + ')')
+          .setText(feature.properties.picture + ' (' + feature.properties.species + ')')
+          .setHTML('<h1>' + feature.properties.species + '</h1><img src="http://res.cloudinary.com/foxtail/image/upload/h_200/' + feature.properties.picture + '">')
           .addTo(map);
   });
 
@@ -123,8 +124,8 @@ map.on('load', function(e) {
       var value = normalize(e.target.value);
 
       // Filter visible features that don't match the input value.
-      var filtered = airports.filter(function(feature) {
-          var name = normalize(feature.properties.name);
+      var filtered = uniqueSpecies.filter(function(feature) {
+          var name = normalize(feature.properties.picture);
           var code = normalize(feature.properties.species);
           return name.indexOf(value) > -1 || code.indexOf(value) > -1;
       });
