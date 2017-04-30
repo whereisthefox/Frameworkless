@@ -71,56 +71,63 @@ class ApiController
 
     public function tomyCSV()
     {
-      $json = file_get_contents($_SERVER["DOCUMENT_ROOT"].'/data/json/datapoints.geojson');
-      $tempArray = json_decode($json, true);
-      $csvfile = fopen($_SERVER["DOCUMENT_ROOT"].'/data/json/file.csv','w+');
-      $list = array
-        (
-        "latitude",
-        "longitude",
-        "name_of_spiecies",
-        "picture_name",
-        "weather_desc",
-        "temp",
-        "pressure",
-        "humidity",
-        "temp_min",
-        "temp_max",
-        "sea_level",
-        "grnd_level",
-        "wind_speed",
-        "wind_deg",
-        "clouds_all",
-        "timespan"
+        $titleList = array (
+            "latitude",
+            "longitude",
+            "name_of_spiecies",
+            "picture_name",
+            "weather_desc",
+            "temp",
+            "pressure",
+            "humidity",
+            "temp_min",
+            "temp_max",
+            "sea_level",
+            "grnd_level",
+            "wind_speed",
+            "wind_deg",
+            "clouds_all",
+            "timespan"
         );
-      fputcsv($csvfile, $list);
-      fclose($csvfile);
-
-      foreach ($tempArray[1] as $myfeatures) {
-      $csvfile = fopen($_SERVER["DOCUMENT_ROOT"].'/data/json/file.csv');
-         $list = array
-           (
-             $json['features']['geometry']['coordinates'][0],
-             $json['features']['geometry']['coordinates'][1],
-             $json['features']['properties']['species'],
-             $json['features']['properties']['picture'],
-             $json['features']['weather']['description'],
-             $json['features']['main']['temp'],
-             $json['features']['main']['pressure'],
-             $json['features']['main']['humidity'],
-             $json['features']['main']['temp_min'],
-             $json['features']['main']['temp_max'],
-             $json['features']['main']['sea_level'],
-             $json['features']['main']['grnd_level'],
-             $json['features']['wind']['speed'],
-             $json['features']['wind']['deg'],
-             $json['features']['clouds']['all'],
-             $json['features']['dt']
-           );
-           var_dump($list);
-           fputs($csvfile, $list);
-           fclose($csvfile);
-      }
+        $csvfile = fopen($_SERVER["DOCUMENT_ROOT"].'/data/file.csv','w+');
+        fputcsv($csvfile, $titleList);
+        $json = file_get_contents($_SERVER["DOCUMENT_ROOT"].'/data/json/datapoints.geojson');
+        $tempArray = json_decode($json, true)["features"];
+        // print("<pre>");
+        // var_dump($tempArray);
+        foreach ($tempArray as $k => $v) {
+            $list = array();
+            $list[] = $v["properties"]['species'];
+            $list[] = $v["properties"]['picture'];
+            fputcsv($csvfile, $list);
+        }
+        fclose($csvfile);
+      //
+    //   foreach ($tempArray[1] as $myfeatures) {
+    //   $csvfile = fopen($_SERVER["DOCUMENT_ROOT"].'/data/json/file.csv');
+    //      $list = array
+    //        (
+    //          $json['features']['geometry']['coordinates'][0],
+    //          $json['features']['geometry']['coordinates'][1],
+    //          $json['features']['properties']['species'],
+    //          $json['features']['properties']['picture'],
+    //          $json['features']['weather']['description'],
+    //          $json['features']['main']['temp'],
+    //          $json['features']['main']['pressure'],
+    //          $json['features']['main']['humidity'],
+    //          $json['features']['main']['temp_min'],
+    //          $json['features']['main']['temp_max'],
+    //          $json['features']['main']['sea_level'],
+    //          $json['features']['main']['grnd_level'],
+    //          $json['features']['wind']['speed'],
+    //          $json['features']['wind']['deg'],
+    //          $json['features']['clouds']['all'],
+    //          $json['features']['dt']
+    //        );
+    //        var_dump($list);
+    //        fputs($csvfile, $list);
+    //        fclose($csvfile);
+    //   }
 
   //    return 'succes';
   //  } catch(Exception $e) {
