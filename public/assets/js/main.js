@@ -2,7 +2,7 @@ var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/satellite-v9', //hosted style id
     center: [-77.38, 39], // starting position
-    zoom: 3 // starting zoom
+    zoom: 6 // starting zoom
 });
 
 // Create a popup, but don't add it to the map yet.
@@ -16,12 +16,16 @@ var listingEl = document.getElementById('feature-listing');
 var fromEl = document.getElementById('from-filter');
 var toEl = document.getElementById('to-filter');
 var exportBtn = document.getElementById('export-button');
+var map = document.getElementById('map');
+
+// Set map height to window height
+map.style.height = ((window.innerHeight-96) + "px");
 
 exportBtn.onclick = function exportBtn(exportBtn) {
     $.ajax({
          url: "/export",
          type: "GET",
-         data: {},
+         data: {uniqueFeatures},
          cache: false,
          success: function (response) {
              console.log(response)
