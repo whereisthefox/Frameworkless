@@ -26,9 +26,9 @@ ul li {
     background-color: #F0F3F5;
     background-image: url('../img/logo.png');
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: auto 50%;
     background-position: 95%;
-    padding: 1em;
+    padding: 3em;
 }
 #map {
     height: 600px;

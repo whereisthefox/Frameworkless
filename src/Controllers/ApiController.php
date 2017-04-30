@@ -116,6 +116,16 @@ class ApiController
             fputcsv($csvfile, $list);
         }
         fclose($csvfile);
+
+        $request = Request::createFromGlobals();
+
+        $response = new Response(
+            "successful",
+            Response::HTTP_OK,
+            array('Content-Type' => 'text/plain')
+        );
+
+        $response->send();
    }
 
 }

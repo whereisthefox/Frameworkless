@@ -15,6 +15,21 @@ var filterEl = document.getElementById('feature-filter');
 var listingEl = document.getElementById('feature-listing');
 var fromEl = document.getElementById('from-filter');
 var toEl = document.getElementById('to-filter');
+var exportBtn = document.getElementById('export-button');
+
+exportBtn.onclick = function exportBtn(exportBtn) {
+    $.ajax({
+         url: "/export",
+         type: "GET",
+         data: {},
+         cache: false,
+         success: function (response) {
+             console.log(response)
+             //$('#thenode').html(response);
+         }
+     });
+}
+
 
 function renderListings(features) {
     // Clear any existing listings
