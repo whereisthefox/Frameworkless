@@ -97,43 +97,25 @@ class ApiController
         // var_dump($tempArray);
         foreach ($tempArray as $k => $v) {
             $list = array();
+            $list[] = $v['geometry']['coordinates'][0];
+            $list[] = $v['geometry']['coordinates'][1];
             $list[] = $v["properties"]['species'];
             $list[] = $v["properties"]['picture'];
+            $list[] = $v['weather'][0]['description'];
+            $list[] = $v['main']['temp'];
+            $list[] = $v['main']['pressure'];
+            $list[] = $v['main']['humidity'];
+            $list[] = $v['main']['temp_min'];
+            $list[] = $v['main']['temp_max'];
+            $list[] = $v['main']['sea_level'];
+            $list[] = $v['main']['grnd_level'];
+            $list[] = $v['wind']['speed'];
+            $list[] = $v['wind']['deg'];
+            $list[] = $v['clouds']['all'];
+            $list[] = $v['dt'];
             fputcsv($csvfile, $list);
         }
         fclose($csvfile);
-      //
-    //   foreach ($tempArray[1] as $myfeatures) {
-    //   $csvfile = fopen($_SERVER["DOCUMENT_ROOT"].'/data/json/file.csv');
-    //      $list = array
-    //        (
-    //          $json['features']['geometry']['coordinates'][0],
-    //          $json['features']['geometry']['coordinates'][1],
-    //          $json['features']['properties']['species'],
-    //          $json['features']['properties']['picture'],
-    //          $json['features']['weather']['description'],
-    //          $json['features']['main']['temp'],
-    //          $json['features']['main']['pressure'],
-    //          $json['features']['main']['humidity'],
-    //          $json['features']['main']['temp_min'],
-    //          $json['features']['main']['temp_max'],
-    //          $json['features']['main']['sea_level'],
-    //          $json['features']['main']['grnd_level'],
-    //          $json['features']['wind']['speed'],
-    //          $json['features']['wind']['deg'],
-    //          $json['features']['clouds']['all'],
-    //          $json['features']['dt']
-    //        );
-    //        var_dump($list);
-    //        fputs($csvfile, $list);
-    //        fclose($csvfile);
-    //   }
-
-  //    return 'succes';
-  //  } catch(Exception $e) {
-  //    return $e->getMessage();
-//    }
-
    }
 
 }
