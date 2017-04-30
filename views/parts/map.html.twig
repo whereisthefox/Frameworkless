@@ -1,6 +1,13 @@
 <div class='map-overlay'>
     <fieldset>
-        <input id='feature-filter' type='text' placeholder='Filter results by name' />
+        <label for="species">Find a species</label>
+        <input id='feature-filter' name="species" type='text' placeholder='Filter results by species' />
+    </fieldset>
+    <fieldset>
+        <label for="species">From:</label>
+        <input id='from-filter' name="from" type='date' placeholder='09/05/2017' />
+        <label for="species">To:</label>
+        <input id='to-filter' name="to" type='date' placeholder='09/05/2018' />
     </fieldset>
     <div id='feature-listing' class='listing'></div>
 </div>

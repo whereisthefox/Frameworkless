@@ -13,6 +13,8 @@ var popup = new mapboxgl.Popup({
 var uniqueSpecies = []; // Holds visible location features for filtering
 var filterEl = document.getElementById('feature-filter');
 var listingEl = document.getElementById('feature-listing');
+var fromEl = document.getElementById('from-filter');
+var toEl = document.getElementById('to-filter');
 
 function renderListings(features) {
     // Clear any existing listings
@@ -34,14 +36,14 @@ function renderListings(features) {
         });
 
         // Show the filter input
-        filterEl.parentNode.style.display = 'block';
+        //filterEl.parentNode.style.display = 'block';
     } else {
         var empty = document.createElement('p');
         empty.textContent = 'Drag the map to populate results';
         listingEl.appendChild(empty);
 
         // Hide the filter input
-        filterEl.parentNode.style.display = 'none';
+        //filterEl.parentNode.style.display = 'none';
 
         // remove features filter
         map.setFilter('locations', ['has', 'species']);
